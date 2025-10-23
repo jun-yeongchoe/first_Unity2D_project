@@ -7,9 +7,16 @@ public class Bullet : MonoBehaviour
     [SerializeField] private int damage = 10;
 
     private Vector3 direction;
+    public Vector3 movePos;
     private Rigidbody2D rb;
 
+    // ÃÑ¾Ë Æ¨±è
+    Vector3 lastVelocity;
+    // ÃÑ¾Ë Æ¨±è
+
+    // Ç®¸µ
     private IObjectPool<Bullet> ManagedPool;
+    // Ç®¸µ
 
     private void Awake()
     {
@@ -18,18 +25,35 @@ public class Bullet : MonoBehaviour
 
     private void Start()
     {
+        movePos = new Vector2(direction.x, direction.y) * speed;
+        rb.velocity = movePos;
         Destroy(gameObject, 5f);
     }
 
+
     private void FixedUpdate()
     {
-        rb.velocity = new Vector2(direction.x, direction.y) * speed;
+        lastVelocity = rb.velocity;
     }
 
     public void GetDir(Vector3 dir)
     {
         direction = dir;
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        {
+            var speed = lastVelocity.magnitude;
+            var dir = Vector2.Reflect(lastVelocity.normalized, collision.contacts[0].normal);
+
+            rb.velocity = dir * Mathf.Max(speed, 0f);
+        }
+    }
+
+
+    // Ç®¸µ
     //public void SetManagedPool(IObjectPool<Bullet> pool)
     //{
     //    ManagedPool = pool;
@@ -45,4 +69,5 @@ public class Bullet : MonoBehaviour
     //{
     //    ManagedPool.Release(this);
     //}
+    // Ç®¸µ
 }
