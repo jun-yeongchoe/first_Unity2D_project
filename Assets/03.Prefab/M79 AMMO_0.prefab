@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 8251934614109257580}
   - component: {fileID: 3018051695902229525}
   - component: {fileID: -8792762645458852846}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: M79 AMMO_0
-  m_TagString: Untagged
+  m_TagString: bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -116,7 +116,7 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -161,5 +161,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ef92f358cf80074e9960cf6c33105a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
+  speed: 5
   damage: 10
+  movePos: {x: 0, y: 0, z: 0}
