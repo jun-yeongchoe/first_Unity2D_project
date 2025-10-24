@@ -69,7 +69,6 @@ public class Player : MonoBehaviour
         audio = GetComponent<AudioSource>();
     }
 
-
     private void Update() 
     {
         Debug.Log(attackType);
@@ -94,19 +93,22 @@ public class Player : MonoBehaviour
                     anim.SetTrigger("7_Shoot");
                     var go = Instantiate(bulletPrefab, firePoint.position, bAng);
                     go.GetDir(atkDir);
-                    Debug.Log(mousePos.ToString());
                     break;
 
                     //근접 공격
                     case atkType.hit:
                     anim.SetTrigger("8_Hit");
-                    //적 공격 당하는 메서드 
+                    //적 공격 당하는 메서드
+                    Collider2D hit = Physics2D.OverlapCircle(firePoint.position, atkRange, enemyLayer);
+                    if(hit && hit.TryGetComponent<Enemy>(out var enemy))
+                    {
+                        enemy.TakeDamage(atkDamage);
+                    }
                     break;
                     //근접 공격
                 }
         }
         //공격
-
 
         //회전
 
@@ -185,7 +187,7 @@ public class Player : MonoBehaviour
     private void FireSfx()
     {
         var sfx = playerSfx.fire[(int)attackType];
-        audio.PlayOneShot(sfx, 0.5f);
+        audio.PlayOneShot(sfx, 0.3f);
 
         if((int)attackType == 1)
         {
