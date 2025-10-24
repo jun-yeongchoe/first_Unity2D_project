@@ -4,7 +4,7 @@ using UnityEngine.Pool;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private float speed = 10f;
-    [SerializeField] private int damage = 10;
+    [SerializeField] private float damage = 10f;
 
     private Vector3 direction;
     public Vector3 movePos;
@@ -56,12 +56,19 @@ public class Bullet : MonoBehaviour
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;           
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
+
         if(count >= 5)
         {
             Destroy(gameObject);
         }
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy")) Destroy(gameObject); ;
-        
-    }
 
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            if(collision.gameObject.TryGetComponent<Enemy>(out var enemy))
+            {
+                enemy.TakeDamage(damage);
+            }
+            Destroy(gameObject);
+        } 
+    }
 }
