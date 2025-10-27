@@ -20,16 +20,17 @@ public class Spawner : MonoBehaviour
         {
             var enemy = GameManager.instance.pool.Get(Random.Range(0, enemyPrefabs));
             enemy.transform.position = GetRandomPointOnGroud();
-
+            
             var e = enemy.GetComponentInChildren<Enemy>(true);
             if (i == KeyHolder && e != null)
             {
                 e.hasKey = true;
             }
+            e.patrolPos = GetRandomPointOnGroud();
         }
     }
 
-    Vector3 GetRandomPointOnGroud() // 지정된 Tile맵 위에서 위치를 찾음
+    public Vector3 GetRandomPointOnGroud() // 지정된 Tile맵 위에서 위치를 찾음
     {
         var b = ground.cellBounds;
         for (int i = 0; i < tries; i++)
