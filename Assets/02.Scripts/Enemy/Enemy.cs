@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using static UnityEditor.PlayerSettings;
 
 public class Enemy : MonoBehaviour
@@ -26,10 +27,10 @@ public class Enemy : MonoBehaviour
     Vector2 dir = Vector2.right;
     public float detectDistance = 1.0f;
     [SerializeField] private LayerMask obstacle;
-    
+
         // 순찰 시 벽이 앞에있는 지 감지
 
-    private bool findPlayer; // 플레이어 감지
+    NavMeshAgent agent;
     public Vector3 patrolPos; // 순찰할 위치
     //전투 관련
 
@@ -40,24 +41,24 @@ public class Enemy : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
+    private void Start()
+    {
+        var go = GameObject.FindWithTag("Player"); // 태그 "Player" 지정 가정
+        target = go.GetComponent<Rigidbody2D>();
+        agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
+        agent.updateUpAxis = false;
+    }
+
     private void Update()
     {
-        Vector2 dir = -(Vector2)transform.right ;
-        bool isBlocked = Physics2D.Raycast(transform.position, dir, detectDistance, obstacle);
 
-        if (!isBlocked)
-        {
-            bool isMoving = true;
-            anim.SetBool("9_Move", isMoving);
-            transform.position += (Vector3)(dir * speed * Time.deltaTime);
-        }
-        Debug.DrawRay(transform.position, dir * detectDistance, Color.red);
+        agent.SetDestination(target.position);
     }
 
     private void FixedUpdate()
     {
         if (!isLive) return;
-        //Move();
     }
 
     private void OnEnable()
@@ -67,15 +68,8 @@ public class Enemy : MonoBehaviour
         target = GameManager.instance.player.GetComponent<Rigidbody2D>();
         dir = Random.insideUnitCircle.normalized;
 
-
     }
 
-    private void Move()
-    {
-        
-        Vector3 next = Vector3.MoveTowards(transform.position, patrolPos, speed * Time.deltaTime);
-        transform.position = next;
-    }
 
     public void TakeDamage(float d)
     {
