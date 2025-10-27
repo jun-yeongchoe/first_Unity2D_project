@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class Bullet : MonoBehaviour
+public class Bullet_E : MonoBehaviour
 {
     [SerializeField] private float speed = 10f;
     [SerializeField] private float damage = 10f;
@@ -15,9 +15,6 @@ public class Bullet : MonoBehaviour
     int count;
     // ÃÑ¾Ë Æ¨±è
 
-    // Ç®¸µ
-    private IObjectPool<Bullet> ManagedPool;
-    // Ç®¸µ
 
     private void Awake()
     {
@@ -43,7 +40,6 @@ public class Bullet : MonoBehaviour
         direction = dir;
     }
 
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
@@ -63,11 +59,11 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            if(collision.gameObject.TryGetComponent<Enemy>(out var enemy))
+            if(collision.gameObject.TryGetComponent<Player>(out var p))
             {
-                enemy.TakeDamage(damage);
+                p.TakeDamage(damage);
             }
             Destroy(gameObject);
         } 

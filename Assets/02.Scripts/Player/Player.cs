@@ -1,4 +1,5 @@
 using System.Collections;
+using System.ComponentModel;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Analytics;
@@ -18,7 +19,8 @@ public class Player : MonoBehaviour
 {
     //캐릭터 상태
     private float hp = 100;
-    public bool isDead { get; private set; }
+   
+    public bool isLive = true;
     //캐릭터 상태
 
     //걷기
@@ -76,7 +78,7 @@ public class Player : MonoBehaviour
         anim = GetComponent<Animator>();
         defaultSpeed = moveSpeed;
         audio = GetComponent<AudioSource>();
-        isDead = false;
+        isLive = true;
     }
 
     private void Update() 
@@ -229,11 +231,22 @@ public class Player : MonoBehaviour
         hasKey = true;
     }
 
+    public void TakeDamage(float d)
+    {
+        if (!isLive) return;
+        hp -= d;
+        Debug.Log($"현재 체력 : {hp}");
+        if (hp <= 0)
+        {
+            Die();
+        }
+    }
+
     IEnumerator Die() //죽음 
     {
         anim.SetTrigger("4_Death");
         yield return new WaitForSeconds(1);
-        isDead = true;
+        isLive = false;
     }
 
     private void OnDrawGizmos()

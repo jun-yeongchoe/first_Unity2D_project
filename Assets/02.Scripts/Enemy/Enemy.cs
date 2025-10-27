@@ -22,17 +22,26 @@ public class Enemy : MonoBehaviour
     private bool KeyDropped = false;
     [SerializeField] private Transform root;
 
-    //전투 관련
-        // 순찰 시 벽이 앞에있는 지 감지
-    Vector2 dir = Vector2.right;
-    public float detectDistance = 1.0f;
-    [SerializeField] private LayerMask obstacle;
-
-        // 순찰 시 벽이 앞에있는 지 감지
-
+    //전투 관련(순찰)
     NavMeshAgent agent;
     public Vector3 patrolPos; // 순찰할 위치
-    //전투 관련
+    private Vector3 startPos; // 원래 위치
+    private Vector3 objectPos; // 목표 위치
+    private bool isArrived;
+    private float arrivalRadius = 0.7f;
+    private bool isMoving;
+    //전투 관련(순찰)
+
+    //플레이어 발견
+    private bool detectTarget;
+    private float detectRange = 6f;
+    [SerializeField] LayerMask player;
+    //플레이어 발견
+
+    //공격
+    public Bullet bulletPrefab;
+    [SerializeField] Transform firePoint;
+    //공격
 
     private void Awake()
     {
@@ -48,12 +57,33 @@ public class Enemy : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+        startPos = transform.position;
+        objectPos = patrolPos;
+        isMoving = true;
+        anim.SetBool("9_Move", isMoving);
+        agent.SetDestination(patrolPos);
     }
 
     private void Update()
     {
+        var bAng = firePoint.rotation * Quaternion.Euler(0f, 0f, -90f);
+        Vector3 atkDir = target.transform.position - transform.position;
 
-        agent.SetDestination(target.position);
+        detectTarget = Physics2D.OverlapCircle(transform.position, detectRange, player);
+        isArrived = Vector2.Distance(transform.position, objectPos) < arrivalRadius;
+        if (detectTarget)
+        {
+            var go = Instantiate(bulletPrefab, firePoint.position, bAng);
+            go.GetDir(atkDir);
+        }
+        if (isArrived)
+        {
+            isMoving = false;
+            anim.SetBool("9_Move", isMoving);
+            objectPos = (objectPos == patrolPos) ? startPos : patrolPos;
+            StartCoroutine(DelayToWalk());
+        }
+
     }
 
     private void FixedUpdate()
@@ -66,7 +96,6 @@ public class Enemy : MonoBehaviour
         isLive = true;
         KeyDropped = false;
         target = GameManager.instance.player.GetComponent<Rigidbody2D>();
-        dir = Random.insideUnitCircle.normalized;
 
     }
 
@@ -104,6 +133,18 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(0.5f); // 죽는 모션 잠깐 재생 후
         root.gameObject.SetActive(false);
     }
+    IEnumerator DelayToWalk()
+    {
+        yield return new WaitForSeconds(2);
+        agent.SetDestination(objectPos);
+        isMoving = true;
+        anim.SetBool("9_Move", isMoving);
+    }
 
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position + Vector3.up * 0.4f, detectRange);
+    }
 }
