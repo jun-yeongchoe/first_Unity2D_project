@@ -81,6 +81,7 @@ public class Player : MonoBehaviour
         isLive = true;
     }
 
+
     private void Update() 
     {
         Debug.Log(attackType);

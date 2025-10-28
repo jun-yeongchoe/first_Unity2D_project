@@ -30,12 +30,14 @@ public class Enemy : MonoBehaviour
     private bool isArrived;
     private float arrivalRadius = 0.7f;
     private bool isMoving;
+    bool isLeft;
     //전투 관련(순찰)
 
     //플레이어 발견
     private bool detectTarget;
     private float detectRange = 6f;
     [SerializeField] LayerMask player;
+    Vector2 targetPos;
     //플레이어 발견
 
     //벽감지
@@ -47,7 +49,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] Transform firePoint;
     [SerializeField] private float shootCooldown = 3.0f;
     private float lastShotTime;
-    bool canShoot;
+    bool isFight;
     //공격
 
     private void Awake()
@@ -67,12 +69,19 @@ public class Enemy : MonoBehaviour
         isMoving = true;
         anim.SetBool("9_Move", isMoving);
         agent.SetDestination(patrolPos);
+        isFight = false;
     }
 
     private void Update()
     {
-        Debug.Log(target);
+        StartCoroutine(WalkDir());
+        var s = transform.localScale;
+        s.x = isLeft ? Mathf.Abs(s.x) : -Mathf.Abs(s.x);
+        transform.localScale = s;
+
         isArrived = Vector2.Distance(transform.position, objectPos) < arrivalRadius;
+        targetPos = target.position;
+
 
         if (isArrived)
         {
@@ -90,41 +99,37 @@ public class Enemy : MonoBehaviour
         var bAng = firePoint.rotation * Quaternion.Euler(0f, 0f, -90f);
         Vector3 atkDir = target.transform.position - transform.position;
         Vector2 center = transform.position + Vector3.up * 0.4f;
-
         detectTarget = Physics2D.OverlapCircle(center, detectRange, player);
-        canShoot = Vector2.Distance(transform.position, objectPos) < arrivalRadius;
-        Debug.Log(CanIShoot());
-        if (CanIShoot())
+        bool CanSee = CanIShoot();
+
+        if (detectTarget && Time.time - lastShotTime >= shootCooldown && CanSee)
         {
-            return;
+            isFight = true;
+            agent.isStopped = true;
+            isMoving = false;
+            anim.SetBool("9_Move", isMoving);
+            lastShotTime = Time.time;                  // 코루틴 시작 전에 쿨 갱신
+            StartCoroutine(DelayAtk(bAng, atkDir));
         }
-        else
+        if(isFight && !CanSee)
         {
-            if (detectTarget && Time.time - lastShotTime >= shootCooldown)
-            {
-                Debug.Log("플레이어 발견");
-                agent.isStopped = true;
-                isMoving = false;
-                anim.SetBool("9_Move", isMoving);
-                lastShotTime = Time.time;                  // 코루틴 시작 전에 쿨 갱신
-                StartCoroutine(DelayAtk(bAng, atkDir));
-            }
+            agent.isStopped = false;
+            isMoving = true;
+            anim.SetBool("9_Move", isMoving);
+            agent.SetDestination(targetPos);
         }
         
     }
 
     private bool CanIShoot()
     {
-        if (!target) return false;
-
         Vector2 dir = target.transform.position - firePoint.position;
         float dist = dir.magnitude;
-        if (dist <= Mathf.Epsilon) return true;
 
         RaycastHit2D hit = Physics2D.Raycast(firePoint.position, dir.normalized, dist, wallMask);
         Debug.DrawLine(firePoint.position, target.transform.position, hit.collider ? Color.blue : Color.yellow, 2.5f);
-
-        return hit.collider == null;
+        if (!hit.collider) return true;
+        else return false;
     }
 
     private void OnEnable()
@@ -176,11 +181,22 @@ public class Enemy : MonoBehaviour
         anim.SetBool("9_Move", isMoving);
     }
 
+    IEnumerator WalkDir()
+    {
+        Vector2 lastPos = transform.position;
+        yield return new WaitForSeconds(0.1f);
+        Vector2 nowPos = transform.position;
+        float dir = lastPos.x - nowPos.x;
+        if (dir < 0) isLeft = false; 
+        else if (dir > 0) isLeft = true;
+        else { yield break; }
+    }
     IEnumerator DelayAtk(Quaternion BA, Vector3 AD)
     {
+        yield return new WaitForSecondsRealtime(0.3f);
         var go = Instantiate(bulletPrefab, firePoint.position, BA);
         go.GetDir(AD);
-        yield return new WaitForSeconds(2);
+        
     }
 
     public void Init(Rigidbody2D playerRb)
