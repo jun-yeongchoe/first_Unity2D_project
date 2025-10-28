@@ -577,7 +577,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 00000000872403913f8dec19
+  m_ApplyToSortingLayers: 00000000872403913f8dec1963c5b8dc
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -2535,7 +2535,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ground: {fileID: 1601916348}
   tries: 64
-  enemyCount: 20
+  enemyCount: 12
+  playerRb: {fileID: 1675860567}
 --- !u!4 &1170301388
 Transform:
   m_ObjectHideFlags: 0
@@ -8316,6 +8317,11 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!50 &1675860567 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 7332195376886911645, guid: 93b11a87d35381f4898fa9bff0e7b835, type: 3}
+  m_PrefabInstance: {fileID: 5519335380519223787}
+  m_PrefabAsset: {fileID: 0}
 --- !u!198 &1735683222 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 970440554703164915, guid: 47096eff328e11a418ace7db2d72aa97, type: 3}

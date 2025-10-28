@@ -1,5 +1,7 @@
 
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.Tilemaps;
 
 public class Spawner : MonoBehaviour
@@ -9,7 +11,20 @@ public class Spawner : MonoBehaviour
     [SerializeField] int enemyCount = 20;
 
     int enemyPrefabs;
+    [SerializeField] private Rigidbody2D playerRb;
 
+    private void Awake()
+    {
+        if(GameManager.instance && GameManager.instance.player)
+        {
+            playerRb = GameManager.instance.player.GetComponent<Rigidbody2D>();
+        }
+        if(playerRb == null)
+        {
+            var go = GameObject.FindWithTag("Player");
+            if(go) playerRb = go.GetComponent<Rigidbody2D>();
+        }
+    }
 
     private void Start()
     {
@@ -22,6 +37,10 @@ public class Spawner : MonoBehaviour
             enemy.transform.position = GetRandomPointOnGroud();
             
             var e = enemy.GetComponentInChildren<Enemy>(true);
+            if (!e) continue;
+
+            e.Init(playerRb);
+           
             if (i == KeyHolder && e != null)
             {
                 e.hasKey = true;

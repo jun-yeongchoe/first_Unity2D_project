@@ -5960,9 +5960,13 @@ MonoBehaviour:
   patrolPos: {x: 0, y: 0, z: 0}
   player:
     serializedVersion: 2
-    m_Bits: 0
-  bulletPrefab: {fileID: 0}
-  firePoint: {fileID: 0}
+    m_Bits: 2048
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 64
+  bulletPrefab: {fileID: 5673206514872371208, guid: e617ed47b82362b4bbaca4a70f5441b2, type: 3}
+  firePoint: {fileID: 4710532886429978661}
+  shootCooldown: 3
 --- !u!70 &8998970262555729894
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

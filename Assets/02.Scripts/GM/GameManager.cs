@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     {
         if (!player.isLive) 
         {
-            
+            Debug.Log("플레이어 사망");
         }
     }
 }

@@ -3,7 +3,7 @@ using UnityEngine.Pool;
 
 public class Bullet_E : MonoBehaviour
 {
-    [SerializeField] private float speed = 10f;
+    [SerializeField] private float speed = 8f;
     [SerializeField] private float damage = 10f;
 
     private Vector3 direction;

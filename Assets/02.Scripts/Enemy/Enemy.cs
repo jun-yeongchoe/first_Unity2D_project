@@ -38,9 +38,16 @@ public class Enemy : MonoBehaviour
     [SerializeField] LayerMask player;
     //플레이어 발견
 
+    //벽감지
+    [SerializeField] LayerMask wallMask;
+    //벽감지
+
     //공격
-    public Bullet bulletPrefab;
+    public Bullet_E bulletPrefab;
     [SerializeField] Transform firePoint;
+    [SerializeField] private float shootCooldown = 3.0f;
+    private float lastShotTime;
+    bool canShoot;
     //공격
 
     private void Awake()
@@ -52,10 +59,8 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        var go = GameObject.FindWithTag("Player"); // 태그 "Player" 지정 가정
-        target = go.GetComponent<Rigidbody2D>();
         agent = GetComponent<NavMeshAgent>();
-        agent.updateRotation = false;
+        agent.updateRotation = true;
         agent.updateUpAxis = false;
         startPos = transform.position;
         objectPos = patrolPos;
@@ -66,16 +71,9 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        var bAng = firePoint.rotation * Quaternion.Euler(0f, 0f, -90f);
-        Vector3 atkDir = target.transform.position - transform.position;
-
-        detectTarget = Physics2D.OverlapCircle(transform.position, detectRange, player);
+        Debug.Log(target);
         isArrived = Vector2.Distance(transform.position, objectPos) < arrivalRadius;
-        if (detectTarget)
-        {
-            var go = Instantiate(bulletPrefab, firePoint.position, bAng);
-            go.GetDir(atkDir);
-        }
+
         if (isArrived)
         {
             isMoving = false;
@@ -89,13 +87,50 @@ public class Enemy : MonoBehaviour
     private void FixedUpdate()
     {
         if (!isLive) return;
+        var bAng = firePoint.rotation * Quaternion.Euler(0f, 0f, -90f);
+        Vector3 atkDir = target.transform.position - transform.position;
+        Vector2 center = transform.position + Vector3.up * 0.4f;
+
+        detectTarget = Physics2D.OverlapCircle(center, detectRange, player);
+        canShoot = Vector2.Distance(transform.position, objectPos) < arrivalRadius;
+        Debug.Log(CanIShoot());
+        if (CanIShoot())
+        {
+            return;
+        }
+        else
+        {
+            if (detectTarget && Time.time - lastShotTime >= shootCooldown)
+            {
+                Debug.Log("플레이어 발견");
+                agent.isStopped = true;
+                isMoving = false;
+                anim.SetBool("9_Move", isMoving);
+                lastShotTime = Time.time;                  // 코루틴 시작 전에 쿨 갱신
+                StartCoroutine(DelayAtk(bAng, atkDir));
+            }
+        }
+        
+    }
+
+    private bool CanIShoot()
+    {
+        if (!target) return false;
+
+        Vector2 dir = target.transform.position - firePoint.position;
+        float dist = dir.magnitude;
+        if (dist <= Mathf.Epsilon) return true;
+
+        RaycastHit2D hit = Physics2D.Raycast(firePoint.position, dir.normalized, dist, wallMask);
+        Debug.DrawLine(firePoint.position, target.transform.position, hit.collider ? Color.blue : Color.yellow, 2.5f);
+
+        return hit.collider == null;
     }
 
     private void OnEnable()
     {
         isLive = true;
         KeyDropped = false;
-        target = GameManager.instance.player.GetComponent<Rigidbody2D>();
 
     }
 
@@ -119,10 +154,10 @@ public class Enemy : MonoBehaviour
 
         Vector3 deathPos = transform.position;
 
-            if (hasKey && !KeyDropped)
-            {
-                Instantiate(key, deathPos, Quaternion.identity);
-            }
+        if (hasKey && !KeyDropped)
+        {
+            Instantiate(key, deathPos, Quaternion.identity);
+        }
 
         anim.SetTrigger("4_Death");
         StartCoroutine(DeathDelay());
@@ -141,10 +176,21 @@ public class Enemy : MonoBehaviour
         anim.SetBool("9_Move", isMoving);
     }
 
+    IEnumerator DelayAtk(Quaternion BA, Vector3 AD)
+    {
+        var go = Instantiate(bulletPrefab, firePoint.position, BA);
+        go.GetDir(AD);
+        yield return new WaitForSeconds(2);
+    }
 
+    public void Init(Rigidbody2D playerRb)
+    {
+        target = playerRb;
+    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position + Vector3.up * 0.4f, detectRange);
     }
 }
+
