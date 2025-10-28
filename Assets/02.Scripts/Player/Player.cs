@@ -1,4 +1,5 @@
 using System.Collections;
+using System.ComponentModel;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Analytics;
@@ -13,10 +14,15 @@ public struct PlayerSfx
     
 }
 
-
 public enum atkType { hit, shoot }
 public class Player : MonoBehaviour 
-{ 
+{
+    //캐릭터 상태
+    private float hp = 100;
+   
+    public bool isLive = true;
+    //캐릭터 상태
+
     //걷기
     [Header("캐릭터 이동관련")]
     [SerializeField] private float moveSpeed = 5.0f;
@@ -61,13 +67,20 @@ public class Player : MonoBehaviour
     public ParticleSystem hitFX;
     //공격
 
+    //기타
+
+    public static bool hasKey { get; private set; }
+
+    //기타
     private void Awake() 
     { 
         rb = GetComponent<Rigidbody2D>(); 
         anim = GetComponent<Animator>();
         defaultSpeed = moveSpeed;
         audio = GetComponent<AudioSource>();
+        isLive = true;
     }
+
 
     private void Update() 
     {
@@ -144,6 +157,17 @@ public class Player : MonoBehaviour
         isDash = false;
 
         //대쉬
+
+        //키 보유
+        if (hasKey)
+        {
+            Debug.Log("키 있음");
+        }
+        else
+        {
+            Debug.Log("키 없음");
+        }
+        //키 보유
     }
     private void FixedUpdate() 
     {
@@ -155,7 +179,11 @@ public class Player : MonoBehaviour
         anim.SetBool("9_Move", isMoving);
         // 걷기
         CheckEnemy();
-        
+
+        if (hp <= 0)
+        {
+            StartCoroutine(Die());
+        }
     }
 
     // 대시 쿨타임 구현 코루틴
@@ -197,6 +225,29 @@ public class Player : MonoBehaviour
         { 
             hitFX.Play();
         }
+    }
+
+    public void GainKey()
+    {
+        hasKey = true;
+    }
+
+    public void TakeDamage(float d)
+    {
+        if (!isLive) return;
+        hp -= d;
+        Debug.Log($"현재 체력 : {hp}");
+        if (hp <= 0)
+        {
+            Die();
+        }
+    }
+
+    IEnumerator Die() //죽음 
+    {
+        anim.SetTrigger("4_Death");
+        yield return new WaitForSeconds(1);
+        isLive = false;
     }
 
     private void OnDrawGizmos()
