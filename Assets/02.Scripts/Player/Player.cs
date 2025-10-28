@@ -10,7 +10,7 @@ using UnityEngine.UIElements;
 public struct PlayerSfx
 {
     public AudioClip[] fire;
-    public AudioClip reload;
+    public AudioClip explosion;
     
 }
 
@@ -70,6 +70,7 @@ public class Player : MonoBehaviour
     //기타
 
     public static bool hasKey { get; private set; }
+    public static bool withObject { get; set; }
 
     //기타
     private void Awake() 
@@ -81,10 +82,9 @@ public class Player : MonoBehaviour
         isLive = true;
     }
 
-
     private void Update() 
     {
-        Debug.Log(attackType);
+        Debug.Log($"인질여부 : {withObject}");
         // 걷기
         h = Input.GetAxisRaw("Horizontal"); 
         v = Input.GetAxisRaw("Vertical");
@@ -116,6 +116,10 @@ public class Player : MonoBehaviour
                     if(hit && hit.TryGetComponent<Enemy>(out var enemy))
                     {
                         enemy.TakeDamage(atkDamage);
+                    }
+                    if (hit && hit.TryGetComponent<Boss>(out var boss))
+                    {
+                        boss.TakeDamage(atkDamage);
                     }
                     break;
                     //근접 공격
@@ -247,6 +251,7 @@ public class Player : MonoBehaviour
     {
         anim.SetTrigger("4_Death");
         yield return new WaitForSeconds(1);
+        Time.timeScale = 0;
         isLive = false;
     }
 
