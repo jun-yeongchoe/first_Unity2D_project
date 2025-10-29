@@ -18,7 +18,7 @@ public enum atkType { hit, shoot }
 public class Player : MonoBehaviour 
 {
     //캐릭터 상태
-    private float hp = 100;
+    private float hp;
    
     public bool isLive = true;
     //캐릭터 상태
