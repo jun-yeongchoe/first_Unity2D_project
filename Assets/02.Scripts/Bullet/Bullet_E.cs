@@ -4,7 +4,7 @@ using UnityEngine.Pool;
 public class Bullet_E : MonoBehaviour
 {
     [SerializeField] private float speed = 8f;
-    [SerializeField] private float damage = 10f;
+    [SerializeField] private int damage = 10;
 
     private Vector3 direction;
     public Vector3 movePos;

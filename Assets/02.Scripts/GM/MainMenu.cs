@@ -14,6 +14,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI nameStartReq;
     [SerializeField] TextMeshProUGUI invalidName;
     public TMP_InputField playerNameInput;
+    public static string name;
 
     private void Awake()
     {
@@ -67,6 +68,7 @@ public class MainMenu : MonoBehaviour
         {
             Debug.Log("이름을 입력하였습니다.");
             nameStartReq.text = $"이름 \"{playerNameInput.text}\"(으)로 시작합니다.";
+            name = playerNameInput.text;
             invalidName.gameObject.SetActive(false);
             panel.SetActive(true);
         }
@@ -77,8 +79,7 @@ public class MainMenu : MonoBehaviour
         Debug.Log("게임을 시작합니다.");
         var data = new GameData
         {
-            playerName = playerNameInput.text,
-            hp = 100,
+            playerName = name,
             playTime = 0
         };
         SaveSystem.Save(data);

@@ -8,6 +8,13 @@ public class Finish : MonoBehaviour
     {
         if (collision.CompareTag("Player") && Player.withObject)
         {
+            var data = new GameData
+            {
+                playerName = MainMenu.name,
+                hp = GameManager.instance.player.hp,
+                playTime = Timer.ElapsedSeconds
+            };
+            SaveSystem.Save(data);
             SceneManager.LoadScene("FinishScene");
         }
         if (!Player.withObject)

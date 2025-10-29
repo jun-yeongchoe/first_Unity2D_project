@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,11 +9,20 @@ public class GameManager : MonoBehaviour
     public Player player;
     public Enemy enemy;
 
+    
     private bool gameOver;
+    [SerializeField] GameObject gameOverPanel;
+
 
     private void Awake()
     {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
         instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Update()
@@ -25,10 +35,19 @@ public class GameManager : MonoBehaviour
 
         if (gameOver)
         {
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                SceneManager.LoadScene("TitleScene");
-            }
+            gameOverPanel.SetActive(true);
         }
+
+    }
+
+
+    public void OnClickRestart()
+    {
+        SceneManager.LoadScene("1st_Floor_Scene", LoadSceneMode.Single);
+    }
+
+    public void OnClickGoTitle()
+    {
+        SceneManager.LoadScene("TitleScene", LoadSceneMode.Single);
     }
 }

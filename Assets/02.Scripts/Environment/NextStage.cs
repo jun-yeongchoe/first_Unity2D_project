@@ -8,6 +8,14 @@ public class NextStage : MonoBehaviour
     {
         if (collision.CompareTag("Player") && Player.hasKey)
         {
+            var data = new GameData
+            {
+                playerName = MainMenu.name,
+                hp = GameManager.instance.player.hp,
+                playTime = Timer.ElapsedSeconds
+            };
+            SaveSystem.Save(data);
+            foreach(var e in GameObject.FindGameObjectsWithTag("Enemy")) e.SetActive(false);
             SceneManager.LoadScene("UnderGroundRoom");
         }
         if (!Player.hasKey)

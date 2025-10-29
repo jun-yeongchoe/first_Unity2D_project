@@ -18,7 +18,7 @@ public enum atkType { hit, shoot }
 public class Player : MonoBehaviour 
 {
     //캐릭터 상태
-    private float hp;
+    public int hp=100;
    
     public bool isLive = true;
     //캐릭터 상태
@@ -219,7 +219,7 @@ public class Player : MonoBehaviour
     private void FireSfx()
     {
         var sfx = playerSfx.fire[(int)attackType];
-        audio.PlayOneShot(sfx, 0.3f);
+        audio.PlayOneShot(sfx, 0.1f);
 
         if((int)attackType == 1)
         {
@@ -236,7 +236,7 @@ public class Player : MonoBehaviour
         hasKey = true;
     }
 
-    public void TakeDamage(float d)
+    public void TakeDamage(int d)
     {
         if (!isLive) return;
         hp -= d;
@@ -249,9 +249,9 @@ public class Player : MonoBehaviour
 
     IEnumerator Die() //죽음 
     {
+        Timer.instance.isRunning = false;
         anim.SetTrigger("4_Death");
         yield return new WaitForSeconds(1);
-        Time.timeScale = 0;
         isLive = false;
     }
 
