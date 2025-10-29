@@ -17,4 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/01.Scenes/FinishScene.unity
     guid: 09de68db69e8beb4c916dc85536c80d8
+  - enabled: 1
+    path: Assets/01.Scenes/ScoreBoard.unity
+    guid: 9d744504c9ac9824b92de2d755a1744e
+  - enabled: 1
+    path: Assets/01.Scenes/StartScene.unity
+    guid: 11ea3fb8b011fcd45afe4e13b0b642bb
   m_configObjects: {}
