@@ -53,3 +53,6 @@ TagManager:
   - name: Key
     uniqueID: 3703096675
     locked: 0
+  - name: HPbar
+    uniqueID: 3407968611
+    locked: 0

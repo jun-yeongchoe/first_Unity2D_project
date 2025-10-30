@@ -14,7 +14,8 @@ public class Player : MonoBehaviour
 {
     //캐릭터 상태
     public int hp=100;
-   
+    private int maxHp=100;
+    [SerializeField] private RectTransform hpFront;
     public bool isLive = true;
     //캐릭터 상태
 
@@ -235,6 +236,7 @@ public class Player : MonoBehaviour
     {
         if (!isLive) return;
         hp -= d;
+        Health.HpDown(hpFront, hp, maxHp);
         Debug.Log($"현재 체력 : {hp}");
         if (hp <= 0)
         {
