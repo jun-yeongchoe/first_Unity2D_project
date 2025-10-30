@@ -8,6 +8,7 @@ public class Finish : MonoBehaviour
     {
         if (collision.CompareTag("Player") && Player.withObject)
         {
+            GameManager.instance.gameOver = true;
             var data = new GameData
             {
                 playerName = MainMenu.pName,

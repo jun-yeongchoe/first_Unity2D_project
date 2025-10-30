@@ -1,4 +1,6 @@
 using System.Collections;
+using System.ComponentModel;
+using System.Net.NetworkInformation;
 using UnityEngine;
 
 [System.Serializable]
@@ -13,7 +15,7 @@ public enum atkType { hit, shoot }
 public class Player : MonoBehaviour 
 {
     //캐릭터 상태
-    public int hp=100;
+    public int hp;
     private int maxHp=100;
     [SerializeField] private RectTransform hpFront;
     public bool isLive = true;
@@ -77,9 +79,12 @@ public class Player : MonoBehaviour
         audioFx = GetComponent<AudioSource>();
         isLive = true;
     }
+   
 
     private void Update() 
     {
+        Debug.Log($"현재 상태 : {isLive}");
+        Debug.Log($"플레이어 HP : {hp}");
         Debug.Log($"인질여부 : {withObject}");
         // 걷기
         h = Input.GetAxisRaw("Horizontal"); 
@@ -182,8 +187,10 @@ public class Player : MonoBehaviour
 
         if (hp <= 0)
         {
-            StartCoroutine(Die());
+            isLive = false;
         }
+
+        if(!isLive) StartCoroutine(Die());
     }
 
     // 대시 쿨타임 구현 코루틴
@@ -238,20 +245,33 @@ public class Player : MonoBehaviour
         hp -= d;
         Health.HpDown(hpFront, hp, maxHp);
         Debug.Log($"현재 체력 : {hp}");
-        if (hp <= 0)
-        {
-            Die();
-        }
     }
 
     IEnumerator Die() //죽음 
     {
-        Timer.instance.isRunning = false;
-        anim.SetTrigger("4_Death");
-        yield return new WaitForSeconds(1);
+        if (!isLive) yield break;
         isLive = false;
+
+        var animC = anim;
+        var gm = GameManager.instance;
+
+        if (anim != null) anim.SetTrigger("4_Death");
+        yield return new WaitForSeconds(0.5f);
+
+        enabled = false;
+        StopAllCoroutines();
+
+        if (gm != null) gm.OnPlayerDead();
+
+        Destroy(gameObject);
+        yield break;
     }
 
+    private void OnDestroy()
+    {
+        var gm = GameManager.instance;
+        if (gm != null && gm.player == this) gm.player = null;
+    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;

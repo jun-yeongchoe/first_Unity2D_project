@@ -9,8 +9,7 @@ public class GameManager : MonoBehaviour
     public Player player;
     public Enemy enemy;
 
-    
-    private bool gameOver;
+    public bool gameOver;
     [SerializeField] GameObject gameOverPanel;
 
 
@@ -27,23 +26,25 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (!player.isLive)
-        {
-            Debug.Log("플레이어 사망");
-            gameOver = true;
-        }
-
-        if (gameOver)
-        {
-            gameOverPanel.SetActive(true);
-        }
+        if (gameOver) return;
+        if (player == null) return;
 
     }
 
+    public void OnPlayerDead()
+    {
+        gameOver = true;
+        gameOverPanel.SetActive(true);
+        Timer.ElapsedSeconds = 0;
+        
+    }
 
     public void OnClickRestart()
     {
-        SceneManager.LoadScene("1st_Floor_Scene", LoadSceneMode.Single);
+        gameOver = false;
+        player.isLive = true;
+        player.hp = 100;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
     }
 
     public void OnClickGoTitle()

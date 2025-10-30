@@ -84,6 +84,8 @@ public class MainMenu : MonoBehaviour
         };
         SaveSystem.Save(data);
         SceneManager.LoadScene("1st_Floor_Scene");
+        GameManager.instance.player.hp = 100;
+        GameManager.instance.gameOver = false;
     }
     public void OnClikRename()
     {
