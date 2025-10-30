@@ -9,7 +9,7 @@ using UnityEngine.Networking;
 public class FinishScene : MonoBehaviour
 {
     const string URL = "https://script.google.com/macros/s/AKfycbxe6XUrCnTnFOJUCyYas93qZD86wrFf_-0wBXuJ9GRsQH6FP9n-zZkGuohkx6JlsxIx/exec";
-    public string csvURL = "https://docs.google.com/spreadsheets/d/1wKliWH_XftOBHAu0sPX6vb9qumEbruhmRMXujSh5GM0/export?format=csv";
+    
     int lastRow;
 
     [SerializeField] TextMeshProUGUI Name;
@@ -60,6 +60,7 @@ public class FinishScene : MonoBehaviour
         return s.Replace("\"", "\"\"");     // 쌍따옴표가 하나만 사용되어있으면 두개로 대체
     }
 
+    //스프레드시트에 기록 등록
     IEnumerator GetLastRow()
     {
         using (UnityWebRequest www = UnityWebRequest.Get(URL))
@@ -98,4 +99,5 @@ public class FinishScene : MonoBehaviour
 
         yield return StartCoroutine(Post(form));
     }
+    //스프레드시트에 기록 등록
 }
