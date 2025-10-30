@@ -1,16 +1,14 @@
 using UnityEngine;
-using UnityEngine.Pool;
 
 public class Bullet_Boss : MonoBehaviour
 {
     [SerializeField] private float speed = 8f;
-    [SerializeField] private float damage = 10f;
+    [SerializeField] private int damage = 10;
 
     private Vector3 direction;
     public Vector3 movePos;
     private Rigidbody2D rb;
 
-    private AudioSource audio;
     public PlayerSfx playerSfx;
     [SerializeField] private ParticleSystem boom;
     
@@ -19,7 +17,6 @@ public class Bullet_Boss : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        audio = GetComponent<AudioSource>();
     }
 
     private void Start()
