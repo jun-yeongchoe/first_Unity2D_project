@@ -5,6 +5,8 @@ using UnityEngine.AI;
 public class Boss : MonoBehaviour
 {
     [SerializeField] private float hp = 500f;
+    private float maxHp = 500f;
+    [SerializeField] private RectTransform hpFront;
     public float speed = 3.0f;
     public Rigidbody2D target;
 
@@ -120,6 +122,7 @@ public class Boss : MonoBehaviour
     {
         if (!isLive) return;
         hp -= d;
+        Health.HpDown(hpFront, (int)hp, (int)maxHp);
         Debug.Log($"현재 체력 : {hp}");
         if (hp <= 0)
         {
