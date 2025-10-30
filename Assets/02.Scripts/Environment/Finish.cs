@@ -10,7 +10,7 @@ public class Finish : MonoBehaviour
         {
             var data = new GameData
             {
-                playerName = MainMenu.name,
+                playerName = MainMenu.pName,
                 hp = GameManager.instance.player.hp,
                 playTime = Timer.ElapsedSeconds
             };

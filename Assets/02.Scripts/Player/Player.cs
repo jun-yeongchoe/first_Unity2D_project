@@ -1,10 +1,5 @@
 using System.Collections;
-using System.ComponentModel;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Analytics;
-using UnityEngine.Pool;
-using UnityEngine.UIElements;
 
 [System.Serializable]
 public struct PlayerSfx
@@ -61,7 +56,7 @@ public class Player : MonoBehaviour
 
 
     // 사운드 및 이펙트
-    private AudioSource audio;
+    private AudioSource audioFx;
     public PlayerSfx playerSfx;
     public ParticleSystem muzzleFlash;
     public ParticleSystem hitFX;
@@ -78,7 +73,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>(); 
         anim = GetComponent<Animator>();
         defaultSpeed = moveSpeed;
-        audio = GetComponent<AudioSource>();
+        audioFx = GetComponent<AudioSource>();
         isLive = true;
     }
 
@@ -219,7 +214,7 @@ public class Player : MonoBehaviour
     private void FireSfx()
     {
         var sfx = playerSfx.fire[(int)attackType];
-        audio.PlayOneShot(sfx, 0.1f);
+        audioFx.PlayOneShot(sfx, 0.1f);
 
         if((int)attackType == 1)
         {

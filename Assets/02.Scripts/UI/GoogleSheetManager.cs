@@ -2,14 +2,12 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.SocialPlatforms.Impl;
-using UnityEngine.Windows;
 
 public class GoogleSheetManager : MonoBehaviour
 {
     public string csvURL = "https://docs.google.com/spreadsheets/d/1wKliWH_XftOBHAu0sPX6vb9qumEbruhmRMXujSh5GM0/export?format=csv";
     private string[,] rank = new string[3, 2];
-    [SerializeField] private TextMeshProUGUI[] name;
+    [SerializeField] private TextMeshProUGUI[] tName;
     [SerializeField] private TextMeshProUGUI[] score;
 
 
@@ -61,9 +59,9 @@ public class GoogleSheetManager : MonoBehaviour
             }
             else continue;
         }
-        for (int i = 0; i < name.Length; i++) 
+        for (int i = 0; i < name.Length-1; i++) 
         {
-            name[i].text = rank[i, 0];
+            tName[i].text = rank[i, 0];
             score[i].text = rank[i, 1].ToString().Replace('"', ' ');
         }
 

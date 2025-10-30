@@ -1,7 +1,6 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
@@ -11,7 +10,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] TextMeshProUGUI nameStartReq;
     [SerializeField] TextMeshProUGUI invalidName;
     public TMP_InputField playerNameInput;
-    public static string name;
+    public static string pName;
 
     private void Awake()
     {
@@ -42,7 +41,11 @@ public class MainMenu : MonoBehaviour
     }
     public void OnClickQuit()
     {
-        UnityEditor.EditorApplication.isPlaying = false;
+        #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
     }
 
     //ScoreBoard
@@ -65,7 +68,7 @@ public class MainMenu : MonoBehaviour
         {
             Debug.Log("이름을 입력하였습니다.");
             nameStartReq.text = $"이름 \"{playerNameInput.text}\"(으)로 시작합니다.";
-            name = playerNameInput.text;
+            pName = playerNameInput.text;
             invalidName.gameObject.SetActive(false);
             panel.SetActive(true);
         }
@@ -76,7 +79,7 @@ public class MainMenu : MonoBehaviour
         Debug.Log("게임을 시작합니다.");
         var data = new GameData
         {
-            playerName = name,
+            playerName = pName,
             playTime = 0
         };
         SaveSystem.Save(data);
