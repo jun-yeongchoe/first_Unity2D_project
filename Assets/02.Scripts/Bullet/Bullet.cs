@@ -4,7 +4,7 @@ using UnityEngine.Pool;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private float speed = 10f;
-    [SerializeField] private int damage = 10;
+    [SerializeField] private float damage = 10f;
 
     private Vector3 direction;
     public Vector3 movePos;
@@ -12,6 +12,7 @@ public class Bullet : MonoBehaviour
 
     // ÃÑ¾Ë Æ¨±è
     Vector3 lastVelocity;
+    int count;
     // ÃÑ¾Ë Æ¨±è
 
     // Ç®¸µ
@@ -25,7 +26,8 @@ public class Bullet : MonoBehaviour
 
     private void Start()
     {
-        movePos = new Vector2(direction.x, direction.y) * speed;
+        count = 0;
+        movePos = new Vector2(direction.x, direction.y).normalized * speed;
         rb.velocity = movePos;
         Destroy(gameObject, 5f);
     }
@@ -41,33 +43,37 @@ public class Bullet : MonoBehaviour
         direction = dir;
     }
 
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
         {
+            count++;
             var speed = lastVelocity.magnitude;
             var dir = Vector2.Reflect(lastVelocity.normalized, collision.contacts[0].normal);
 
             rb.velocity = dir * Mathf.Max(speed, 0f);
+
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;           
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
+
+        if(count >= 5)
+        {
+            Destroy(gameObject);
+        }
+
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            if(collision.gameObject.TryGetComponent<Enemy>(out var enemy))
+            {
+                enemy.TakeDamage(damage);
+            }
+            if (collision.gameObject.TryGetComponent<Boss>(out var boss))
+            {
+                boss.TakeDamage(damage);
+            }
+            Destroy(gameObject);
+        } 
     }
-
-
-    // Ç®¸µ
-    //public void SetManagedPool(IObjectPool<Bullet> pool)
-    //{
-    //    ManagedPool = pool;
-    //}
-
-    //public void Shot(Vector3 dir)
-    //{
-    //    direction = dir;
-    //    Invoke("DestroyBullet", 5f);
-    //}
-
-    //public void DestroyBullet()
-    //{
-    //    ManagedPool.Release(this);
-    //}
-    // Ç®¸µ
 }
