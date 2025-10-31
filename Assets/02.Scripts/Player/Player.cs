@@ -12,12 +12,12 @@ public struct PlayerSfx
 }
 
 public enum atkType { hit, shoot }
-public class Player : MonoBehaviour 
+public class Player : MonoBehaviour
 {
     //캐릭터 상태
-    public int hp;
-    private int maxHp=100;
-    [SerializeField] private RectTransform hpFront;
+    [SerializeField] public int hp = 100;
+    public int maxHp=100;
+    [SerializeField] public RectTransform hpFront;
     public bool isLive = true;
     //캐릭터 상태
 
@@ -173,6 +173,7 @@ public class Player : MonoBehaviour
             Debug.Log("키 없음");
         }
         //키 보유
+        if (!isLive) StartCoroutine(Die());
     }
     private void FixedUpdate() 
     {
@@ -190,7 +191,7 @@ public class Player : MonoBehaviour
             isLive = false;
         }
 
-        if(!isLive) StartCoroutine(Die());
+        
     }
 
     // 대시 쿨타임 구현 코루틴
@@ -241,16 +242,14 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(int d)
     {
-        if (!isLive) return;
         hp -= d;
         Health.HpDown(hpFront, hp, maxHp);
-        Debug.Log($"현재 체력 : {hp}");
+        if (!isLive) return;
     }
 
     IEnumerator Die() //죽음 
     {
-        if (!isLive) yield break;
-        isLive = false;
+        if (isLive) yield break;
 
         var animC = anim;
         var gm = GameManager.instance;
@@ -265,6 +264,11 @@ public class Player : MonoBehaviour
 
         Destroy(gameObject);
         yield break;
+    }
+
+    public void SyncHPBar()
+    {
+        if (hpFront) Health.HpDown(hpFront, hp, maxHp);
     }
 
     private void OnDestroy()

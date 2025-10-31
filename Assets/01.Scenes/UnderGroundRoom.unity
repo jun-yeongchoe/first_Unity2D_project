@@ -38977,7 +38977,7 @@ GameObject:
   - component: {fileID: 1651672762}
   m_Layer: 5
   m_Name: Panel
-  m_TagString: Untagged
+  m_TagString: GameOverPanel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -40932,6 +40932,7 @@ MonoBehaviour:
   pool: {fileID: 0}
   player: {fileID: 1250795527}
   enemy: {fileID: 0}
+  gameOver: 0
   gameOverPanel: {fileID: 1651672760}
 --- !u!1 &2122713374
 GameObject:
@@ -44766,12 +44767,12 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1987318210}
+  - {fileID: 2059768150}
   - {fileID: 1779968718}
   - {fileID: 461581960}
   - {fileID: 26647136}
   - {fileID: 574625420}
   - {fileID: 1648665694}
-  - {fileID: 2059768150}
   - {fileID: 868335812}
   - {fileID: 1276969503}
   - {fileID: 1088815531}

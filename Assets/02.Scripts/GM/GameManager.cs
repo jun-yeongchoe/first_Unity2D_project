@@ -15,13 +15,45 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != null)
+        if (instance != null && instance != this)
         {
             Destroy(gameObject);
             return;
         }
+        gameOver = false;
         instance = this;
         DontDestroyOnLoad(gameObject);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene s, LoadSceneMode m)
+    {
+        RebindSceneRefs();
+    }
+
+    private void RebindSceneRefs()
+    {
+        player = FindAnyObjectByType<Player>(FindObjectsInactive.Exclude);
+
+        var marker = FindFirstObjectByType<GameOverPanelMarker>(FindObjectsInactive.Include);
+        gameOverPanel = marker.gameObject;
+
+        if (marker.restartButton)
+        {
+            marker.restartButton.onClick.RemoveAllListeners();
+            marker.restartButton.onClick.AddListener(OnClickRestart);
+        }
+
+        if (marker.goTitleButton)
+        {
+            marker.goTitleButton.onClick.RemoveAllListeners();
+            marker.goTitleButton.onClick.AddListener(OnClickGoTitle);
+        }
+
     }
 
     private void Update()
@@ -34,16 +66,15 @@ public class GameManager : MonoBehaviour
     public void OnPlayerDead()
     {
         gameOver = true;
+        foreach (var e in GameObject.FindGameObjectsWithTag("Enemy")) e.SetActive(false);
         gameOverPanel.SetActive(true);
-        Timer.ElapsedSeconds = 0;
         
     }
 
     public void OnClickRestart()
     {
         gameOver = false;
-        player.isLive = true;
-        player.hp = 100;
+        Timer.ElapsedSeconds = 0;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
     }
 
