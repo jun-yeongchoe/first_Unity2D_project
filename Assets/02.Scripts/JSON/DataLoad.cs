@@ -9,7 +9,10 @@ public class DataLoad : MonoBehaviour
         {
             GameManager.instance.player.hp = loaded.hp;
             Timer.preSeconds = loaded.playTime;
+            GameManager.instance.player.SyncHPBar();
+
             Debug.Log($"현재체력 : {GameManager.instance.player.hp}");
         }
+
     }
 }

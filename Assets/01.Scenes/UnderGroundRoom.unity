@@ -38975,9 +38975,10 @@ GameObject:
   - component: {fileID: 1651672761}
   - component: {fileID: 1651672763}
   - component: {fileID: 1651672762}
+  - component: {fileID: 1651672764}
   m_Layer: 5
   m_Name: Panel
-  m_TagString: Untagged
+  m_TagString: GameOverPanel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -39042,6 +39043,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1651672760}
   m_CullTransparentMesh: 1
+--- !u!114 &1651672764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1651672760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ef98f2920f60c24f8b75f138e4fe4c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restartButton: {fileID: 1055700046}
+  goTitleButton: {fileID: 687012894}
 --- !u!1 &1732868298
 GameObject:
   m_ObjectHideFlags: 0
@@ -40932,6 +40947,7 @@ MonoBehaviour:
   pool: {fileID: 0}
   player: {fileID: 1250795527}
   enemy: {fileID: 0}
+  gameOver: 0
   gameOverPanel: {fileID: 1651672760}
 --- !u!1 &2122713374
 GameObject:
@@ -44766,12 +44782,12 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1987318210}
+  - {fileID: 2059768150}
   - {fileID: 1779968718}
   - {fileID: 461581960}
   - {fileID: 26647136}
   - {fileID: 574625420}
   - {fileID: 1648665694}
-  - {fileID: 2059768150}
   - {fileID: 868335812}
   - {fileID: 1276969503}
   - {fileID: 1088815531}
