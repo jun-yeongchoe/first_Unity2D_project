@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -8,7 +6,7 @@ public class Timer : MonoBehaviour
     public static Timer instance { get; private set; }
 
     public bool isRunning { get; set; } = true;
-    public static float ElapsedSeconds { get; private set; }
+    public static float ElapsedSeconds { get; set; }
     public static float preSeconds { get; set; }
 
     TextMeshProUGUI timeTxt;
@@ -26,7 +24,6 @@ public class Timer : MonoBehaviour
 
         if (preSeconds > 0.1f)
         {
-            //ElapsedSeconds += preSeconds;
             preSeconds = 0f;
         }
     }

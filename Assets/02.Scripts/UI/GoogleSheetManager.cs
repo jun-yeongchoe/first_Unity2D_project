@@ -59,7 +59,7 @@ public class GoogleSheetManager : MonoBehaviour
             }
             else continue;
         }
-        for (int i = 0; i < name.Length-1; i++) 
+        for (int i = 0; i < tName.Length; i++) 
         {
             tName[i].text = rank[i, 0];
             score[i].text = rank[i, 1].ToString().Replace('"', ' ');
