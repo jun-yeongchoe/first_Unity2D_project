@@ -25,7 +25,7 @@ public class Boss : MonoBehaviour
 
     //플레이어 발견
     private bool detectTarget;
-    private float detectRange = 6f;
+    private float detectRange = 10f;
     [SerializeField] LayerMask player;
     Vector2 targetPos;
     //플레이어 발견
@@ -37,7 +37,7 @@ public class Boss : MonoBehaviour
     //공격
     public Bullet_Boss bulletPrefab;
     [SerializeField] Transform firePoint;
-    [SerializeField] private float shootCooldown = 3.0f;
+    [SerializeField] private float shootCooldown = 0.5f;
     private float lastShotTime;
     bool isFight;
     //공격
@@ -52,7 +52,7 @@ public class Boss : MonoBehaviour
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        agent.updateRotation = true;
+        agent.updateRotation = false;
         agent.updateUpAxis = false;
         startPos = transform.position;
         isMoving = true;
@@ -65,7 +65,6 @@ public class Boss : MonoBehaviour
         var s = transform.localScale;
         s.x = lookLeft ? Mathf.Abs(s.x) : -Mathf.Abs(s.x);
         transform.localScale = s;
-        transform.LookAt(target.transform);
         angle = Mathf.Atan2(target.transform.position.y - transform.position.y, target.transform.position.x - transform.position.x) * Mathf.Rad2Deg;
         firePoint.rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
         targetPos = target.position;
@@ -151,7 +150,7 @@ public class Boss : MonoBehaviour
 
     IEnumerator DelayAtk(Quaternion BA, Vector3 AD)
     {
-        yield return new WaitForSecondsRealtime(0.3f);
+        yield return new WaitForSecondsRealtime(0.1f);
         var go = Instantiate(bulletPrefab, firePoint.position, BA);
         go.GetDir(AD);
         

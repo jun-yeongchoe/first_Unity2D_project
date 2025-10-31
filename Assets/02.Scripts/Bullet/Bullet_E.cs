@@ -33,6 +33,7 @@ public class Bullet_E : MonoBehaviour
     private void FixedUpdate()
     {
         lastVelocity = rb.velocity;
+        if (rb.velocity.magnitude < 5.0f) Destroy(gameObject);
     }
 
     public void GetDir(Vector3 dir)
