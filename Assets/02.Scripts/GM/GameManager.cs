@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     public bool gameOver;
     [SerializeField] GameObject gameOverPanel;
 
+    private bool activePanel;
+    
+
 
     private void Awake()
     {
@@ -58,9 +61,14 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        activePanel = gameOverPanel.activeSelf;
         if (gameOver) return;
         if (player == null) return;
-
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(!activePanel)gameOverPanel.SetActive(true);
+            if (activePanel) gameOverPanel.SetActive(false);
+        }
     }
 
     public void OnPlayerDead()
