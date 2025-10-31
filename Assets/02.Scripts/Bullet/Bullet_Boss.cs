@@ -25,6 +25,10 @@ public class Bullet_Boss : MonoBehaviour
         rb.velocity = movePos;
     }
 
+    private void Update()
+    {
+        if (rb.velocity.magnitude < 5.0f) Destroy(gameObject);
+    }
     public void GetDir(Vector3 dir)
     {
         direction = dir;
