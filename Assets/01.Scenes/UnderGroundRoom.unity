@@ -40648,6 +40648,7 @@ MonoBehaviour:
   player:
     serializedVersion: 2
     m_Bits: 2048
+  love: {fileID: 1026083944216362273, guid: b3bc57980b1fe264696a68a9aded2762, type: 3}
 --- !u!195 &1631083652
 NavMeshAgent:
   m_ObjectHideFlags: 0

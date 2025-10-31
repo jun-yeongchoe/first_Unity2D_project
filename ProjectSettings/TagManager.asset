@@ -57,3 +57,6 @@ TagManager:
   - name: HPbar
     uniqueID: 3407968611
     locked: 0
+  - name: VFX
+    uniqueID: 1142182167
+    locked: 0
