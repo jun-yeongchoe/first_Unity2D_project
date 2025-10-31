@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour
     {
         gameOver = false;
         Timer.ElapsedSeconds = 0;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
+        SceneManager.LoadScene("1st_Floor_Scene", LoadSceneMode.Single);
     }
 
     public void OnClickGoTitle()
