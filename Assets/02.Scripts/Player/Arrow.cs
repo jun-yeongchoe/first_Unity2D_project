@@ -6,6 +6,10 @@ public class Arrow : MonoBehaviour
     [SerializeField] Transform player;
     [SerializeField] Transform Object;
 
+    private void Awake()
+    {
+        GameManager.instance.arrow = this;
+    }
     private void Update()
     {
         transform.right = (Object.position - transform.position).normalized;
@@ -14,5 +18,10 @@ public class Arrow : MonoBehaviour
     {
         Vector3 targetPos = new Vector3(player.position.x, player.position.y - 0.5f, this.transform.position.z);
         transform.position = targetPos;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.instance.arrow = null;
     }
 }

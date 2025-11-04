@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
     private void RebindSceneRefs()
     {
         player = FindAnyObjectByType<Player>(FindObjectsInactive.Exclude);
+        arrow = FindAnyObjectByType<Arrow>(FindObjectsInactive.Include);
 
         var marker = FindFirstObjectByType<GameOverPanelMarker>(FindObjectsInactive.Include);
         gameOverPanel = marker.gameObject;
