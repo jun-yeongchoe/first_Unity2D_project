@@ -60,3 +60,6 @@ TagManager:
   - name: VFX
     uniqueID: 1142182167
     locked: 0
+  - name: Arrow
+    uniqueID: 1329168593
+    locked: 0

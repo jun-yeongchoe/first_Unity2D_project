@@ -1,4 +1,5 @@
 
+using Unity.Burst.Intrinsics;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -42,6 +43,8 @@ public class Objecti : MonoBehaviour
             isMoving = true;
             anim.SetBool("9_Move", isMoving);
             agent.SetDestination(target.position);
+            Arrow arr = GameManager.instance.arrow;
+            arr.gameObject.SetActive(true);
         }
         else
         {
@@ -49,6 +52,8 @@ public class Objecti : MonoBehaviour
             isMoving = false;
             anim.SetBool("9_Move", isMoving);
             agent.isStopped = true;
+            Arrow arr = GameManager.instance.arrow;
+            arr.gameObject.SetActive(false);
         }
     }
 
