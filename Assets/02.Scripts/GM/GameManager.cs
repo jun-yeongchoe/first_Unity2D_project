@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public PoolManager pool;
     public Player player;
     public Enemy enemy;
+    public Arrow arrow;
 
     public bool gameOver;
     [SerializeField] GameObject gameOverPanel;
