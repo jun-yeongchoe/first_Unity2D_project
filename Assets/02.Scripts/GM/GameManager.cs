@@ -16,7 +16,6 @@ public class GameManager : MonoBehaviour
     private bool activePanel;
     
 
-
     private void Awake()
     {
         if (instance != null && instance != this)

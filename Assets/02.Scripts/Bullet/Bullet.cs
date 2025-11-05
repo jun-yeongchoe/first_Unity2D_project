@@ -15,10 +15,6 @@ public class Bullet : MonoBehaviour
     int count;
     // ÃÑ¾Ë Æ¨±è
 
-    // Ç®¸µ
-    private IObjectPool<Bullet> ManagedPool;
-    // Ç®¸µ
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();

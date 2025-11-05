@@ -83,9 +83,6 @@ public class Player : MonoBehaviour
 
     private void Update() 
     {
-        Debug.Log($"현재 상태 : {isLive}");
-        Debug.Log($"플레이어 HP : {hp}");
-        Debug.Log($"인질여부 : {withObject}");
         // 걷기
         h = Input.GetAxisRaw("Horizontal"); 
         v = Input.GetAxisRaw("Vertical");
@@ -94,7 +91,7 @@ public class Player : MonoBehaviour
         // 공격
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0f;
-        angle = Mathf.Atan2(mousePos.y - firePoint.position.y, mousePos.x - firePoint.position.x)*Mathf.Rad2Deg;
+        //angle = Mathf.Atan2(mousePos.y - firePoint.position.y, mousePos.x - firePoint.position.x)*Mathf.Rad2Deg;
         var bAng = firePoint.rotation * Quaternion.Euler(0f, 0f, -90f);
         Vector3 atkDir = mousePos - transform.position;
 
@@ -163,16 +160,6 @@ public class Player : MonoBehaviour
 
         //대쉬
 
-        //키 보유
-        if (hasKey)
-        {
-            Debug.Log("키 있음");
-        }
-        else
-        {
-            Debug.Log("키 없음");
-        }
-        //키 보유
         if (!isLive) StartCoroutine(Die());
     }
     private void FixedUpdate() 
@@ -190,8 +177,6 @@ public class Player : MonoBehaviour
         {
             isLive = false;
         }
-
-        
     }
 
     // 대시 쿨타임 구현 코루틴
@@ -199,16 +184,12 @@ public class Player : MonoBehaviour
     {
         if(!canDash) yield break;
         canDash = false;
-        Debug.Log("대쉬 사용 불가능");
         float time = dashCooldown;
         while(time > 0)
         {
-            Debug.Log($"대쉬쿨 {time}초 남음");
             yield return new WaitForSeconds(1f);
             time -= 1f;
         }
-        //yield return new WaitForSeconds(dashCooldown);
-        Debug.Log("대쉬 사용 가능");
         canDash = true;
     }
 
@@ -251,7 +232,7 @@ public class Player : MonoBehaviour
     {
         if (isLive) yield break;
 
-        var animC = anim;
+        //var animC = anim;
         var gm = GameManager.instance;
 
         if (anim != null) anim.SetTrigger("4_Death");

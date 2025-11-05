@@ -122,7 +122,6 @@ public class Boss : MonoBehaviour
         if (!isLive) return;
         hp -= d;
         Health.HpDown(hpFront, (int)hp, (int)maxHp);
-        Debug.Log($"현재 체력 : {hp}");
         if (hp <= 0)
         {
             Die();

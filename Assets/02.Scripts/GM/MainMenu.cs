@@ -30,13 +30,11 @@ public class MainMenu : MonoBehaviour
     //TitleScene
     public void OnClickNewGame()
     {
-        Debug.Log("새 게임");
         SceneManager.LoadScene("StartScene");
     }
 
     public void OnClickScore()
     {
-        Debug.Log("점수판");
         SceneManager.LoadScene("ScoreBoard");
     }
     public void OnClickQuit()
@@ -51,7 +49,6 @@ public class MainMenu : MonoBehaviour
     //ScoreBoard
     public void OnClickReturn()
     {
-        Debug.Log("뒤로가기");
         SceneManager.LoadScene("TitleScene");
     }
 
@@ -61,12 +58,10 @@ public class MainMenu : MonoBehaviour
 
         if (string.IsNullOrWhiteSpace(playerNameInput.text))
         {
-            Debug.Log("잘못된 이름을 입력하였습니다.");
             invalidName.gameObject.SetActive(true);
         }
         else
         {
-            Debug.Log("이름을 입력하였습니다.");
             nameStartReq.text = $"이름 \"{playerNameInput.text}\"(으)로 시작합니다.";
             pName = playerNameInput.text;
             invalidName.gameObject.SetActive(false);
@@ -76,7 +71,6 @@ public class MainMenu : MonoBehaviour
 
     public void OnClikStart()
     {
-        Debug.Log("게임을 시작합니다.");
         var data = new GameData
         {
             playerName = pName,
@@ -84,14 +78,12 @@ public class MainMenu : MonoBehaviour
         };
         SaveSystem.Save(data);
         SceneManager.LoadScene("1st_Floor_Scene");
-        //GameManager.instance.player.hp = 100;
 
         Timer.ElapsedSeconds = 0;
         GameManager.instance.gameOver = false;
     }
     public void OnClikRename()
     {
-        Debug.Log("이름을 다시 입력합니다.");
         playerNameInput.text = "";
         panel.SetActive(false);
     }

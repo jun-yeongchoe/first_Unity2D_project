@@ -18,9 +18,5 @@ public class NextStage : MonoBehaviour
             foreach(var e in GameObject.FindGameObjectsWithTag("Enemy")) e.SetActive(false);
             SceneManager.LoadScene("UnderGroundRoom");
         }
-        if (!Player.hasKey)
-        {
-            Debug.Log("키가 없습니다.");
-        }
     }
 }
