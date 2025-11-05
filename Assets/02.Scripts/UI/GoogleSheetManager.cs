@@ -23,7 +23,6 @@ public class GoogleSheetManager : MonoBehaviour
 
         if (www.result != UnityWebRequest.Result.Success)
         {
-            Debug.Log("Download failed");
             yield break;
         }
 

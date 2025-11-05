@@ -33,7 +33,7 @@ public class PoolManager : MonoBehaviour
 
     public void ResetAll()
     {
-        // 대여 중(활성) 전부 파괴(또는 SetActive(false)로 통일하고 싶다면 바꿔도 됨)
+        // 대여 중(활성) 전부 비활성화
         foreach (var go in actives) if (go) go.SetActive(false);
         actives.Clear();
 

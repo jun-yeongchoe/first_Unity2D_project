@@ -52,7 +52,6 @@ public class FinishScene : MonoBehaviour
 
             sw.WriteLine($"{System.DateTime.UtcNow:yyyy-MM-dd HH:mm:ss},\"{nameEsc}\", \"{formatted}\", {pTime}");
         }
-        Debug.Log($"CSV 저장 완료 {path}");
     }
     private string EscapeCsv(string s)
     {

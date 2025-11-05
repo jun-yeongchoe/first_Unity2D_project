@@ -142,7 +142,6 @@ public class Enemy : MonoBehaviour
     {
         if (!isLive) return;
         hp -= d;
-        Debug.Log($"현재 체력 : {hp}");
         if (hp <= 0)
         {
             Die();
