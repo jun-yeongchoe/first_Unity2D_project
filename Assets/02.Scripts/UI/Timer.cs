@@ -22,10 +22,6 @@ public class Timer : MonoBehaviour
         ElapsedSeconds += Time.deltaTime;
         timeTxt.text = ToMMSSMS(ElapsedSeconds);
 
-        if (preSeconds > 0.1f)
-        {
-            preSeconds = 0f;
-        }
     }
 
     string ToMMSSMS(float total)

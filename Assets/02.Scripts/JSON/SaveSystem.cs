@@ -14,8 +14,6 @@ public static class SaveSystem //게임데이터를 저장하고 JSON파일로 불러올 역할을 
         //문자열을 파일로 저장
         File.WriteAllText(SavePath, json);
 
-        Debug.Log("저장완료 : " + SavePath);
-        Debug.Log(json);
 
     }
     //JSON 파일을 읽어서 객체로 돌리자
@@ -24,14 +22,11 @@ public static class SaveSystem //게임데이터를 저장하고 JSON파일로 불러올 역할을 
         if (!File.Exists(SavePath)) 
         {
             data = null;
-            Debug.Log("저장파일이 없다");
             return false;
         }
 
         string json = File.ReadAllText(SavePath);
         data = JsonUtility.FromJson<GameData>(json);
-        Debug.Log("불러오기 성공 : " + SavePath);
-        Debug.Log(json);
 
         return true;
     }
