@@ -46,7 +46,7 @@ public class Bullet_Boss : MonoBehaviour
                 bool isPlayer = hit.TryGetComponent<Player>(out Player p);
                 if (p != null) 
                 {
-                    p.GetComponent<Player>().TakeDamage(damage);
+                    p.TakeDamage(damage);
                 }
             }
         }

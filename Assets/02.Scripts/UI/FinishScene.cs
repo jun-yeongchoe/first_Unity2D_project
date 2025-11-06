@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 
 public class FinishScene : MonoBehaviour
 {
-    const string URL = "https://script.google.com/macros/s/AKfycbxe6XUrCnTnFOJUCyYas93qZD86wrFf_-0wBXuJ9GRsQH6FP9n-zZkGuohkx6JlsxIx/exec";
+    const string URL = "https://script.google.com/macros/s/AKfycbyx-NW7yO-mvgaoNqzvIe4dg3mDsXpvkXDwhctgBGkmtWMJmTRqZB8bDGxjCS4Ys8K-/exec";
     
     int lastRow;
 
