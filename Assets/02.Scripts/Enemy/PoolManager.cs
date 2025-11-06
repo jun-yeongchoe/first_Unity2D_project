@@ -36,15 +36,6 @@ public class PoolManager : MonoBehaviour
         // 대여 중(활성) 전부 비활성화
         foreach (var go in actives) if (go) go.SetActive(false);
         actives.Clear();
-
-        // 풀 내부 오브젝트도 모두 파괴 후 리스트 비움
-        for (int i = 0; i < pools.Length; i++)
-        {
-            var list = pools[i];
-            for (int j = 0; j < list.Count; j++)
-                if (list[j]) Destroy(list[j]);
-            list.Clear();
-        }
     }
 
     public GameObject Get(int index)

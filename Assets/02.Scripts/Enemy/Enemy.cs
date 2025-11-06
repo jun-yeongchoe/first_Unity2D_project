@@ -88,7 +88,6 @@ public class Enemy : MonoBehaviour
             objectPos = (objectPos == patrolPos) ? startPos : patrolPos;
             StartCoroutine(DelayToWalk());
         }
-
     }
 
     private void FixedUpdate()
