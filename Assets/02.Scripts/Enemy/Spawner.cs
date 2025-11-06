@@ -37,6 +37,7 @@ public class Spawner : MonoBehaviour
             var e = enemy.GetComponentInChildren<Enemy>(true);
             e.hasKey = false;
             e.hp = e.maxHp;
+            e.isFight = false;
             if (!e) continue;
 
             e.Init(playerRb);
