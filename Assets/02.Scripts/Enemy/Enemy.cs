@@ -4,7 +4,8 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private float hp = 30f;
+    [SerializeField] public float hp = 30f;
+    public float maxHp = 30f;
     public float speed = 3.0f;
     public Rigidbody2D target;
 
