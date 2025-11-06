@@ -48,7 +48,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] Transform firePoint;
     [SerializeField] private float shootCooldown = 3.0f;
     private float lastShotTime;
-    bool isFight;
+    public bool isFight;
     //АјАн
 
     private void Awake()
