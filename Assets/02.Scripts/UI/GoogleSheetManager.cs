@@ -35,17 +35,6 @@ public class GoogleSheetManager : MonoBehaviour
             if (string.IsNullOrWhiteSpace(lines[i])) continue;
 
             string[] values = lines[i].Split(',');
-            var ranking = new Dictionary<int, string>();
-            for(int r = 0; r < lines.Length; r++)
-            {
-                ranking.Add(int.Parse(values[4]), lines[i]);
-            }
-            Dictionary<int, string> sortedRanking = ranking.OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value);
-            var top3 = sortedRanking.Take(3);
-            foreach (var item in top3)
-            {
-                Debug.Log(item.Value);
-            }
 
             if (int.TryParse(values[4], out v) && v == 1)
             {

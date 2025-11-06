@@ -25,10 +25,8 @@ public class Spawner : MonoBehaviour
             if(go) playerRb = go.GetComponent<Rigidbody2D>();
         }
     }
-
     private void Start()
-    {
-        
+    {   
         enemyPrefabs = GameManager.instance.pool.prefabs.Length;
         int KeyHolder = Random.Range(0, enemyCount);
         for (int i = 0; i < enemyCount; i++) 
@@ -37,6 +35,8 @@ public class Spawner : MonoBehaviour
             enemy.transform.position = GetRandomPointOnGroud();
             
             var e = enemy.GetComponentInChildren<Enemy>(true);
+            e.hasKey = false;
+            e.hp = e.maxHp;
             if (!e) continue;
 
             e.Init(playerRb);
